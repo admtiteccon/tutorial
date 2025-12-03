@@ -7,9 +7,17 @@ interface SidebarProps {
   onTabChange: (id: string) => void;
   isOpen: boolean;
   onClose: () => void;
+  onInstallClick?: () => void;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ navItems, activeTab, onTabChange, isOpen, onClose }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ 
+  navItems, 
+  activeTab, 
+  onTabChange, 
+  isOpen, 
+  onClose,
+  onInstallClick
+}) => {
   return (
     <>
       {/* Mobile Overlay */}
@@ -57,6 +65,19 @@ export const Sidebar: React.FC<SidebarProps> = ({ navItems, activeTab, onTabChan
               {item.label}
             </button>
           ))}
+
+          {onInstallClick && (
+            <button
+              onClick={() => {
+                onInstallClick();
+                if (window.innerWidth < 1024) onClose();
+              }}
+              className="w-full flex items-center gap-3 px-4 py-3.5 text-sm font-medium rounded-xl transition-all duration-200 text-emerald-600 hover:bg-emerald-50 hover:text-emerald-900 mt-4 border border-emerald-100 bg-emerald-50/30"
+            >
+              <span className="text-xl">⬇️</span>
+              Instalar App
+            </button>
+          )}
         </nav>
 
         <div className="absolute bottom-0 w-full p-6 border-t border-slate-200 bg-slate-50/50">

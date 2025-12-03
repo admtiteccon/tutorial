@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Sidebar } from './components/Sidebar';
 import { StepCard } from './components/StepCard';
 import { NavItem } from './types';
@@ -31,20 +31,55 @@ function App() {
   const [activeTab, setActiveTab] = useState('intro');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [videoTab, setVideoTab] = useState<'meet' | 'teams'>('meet');
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e: any) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    };
+  }, []);
+
+  const handleInstallClick = () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult: any) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the install prompt');
+        }
+        setDeferredPrompt(null);
+      });
+    }
+  };
 
   const handlePrint = () => {
     window.print();
   };
 
-  const handleDownloadQR = (e: React.MouseEvent) => {
+  const handleDownloadQR = async (e: React.MouseEvent) => {
     e.preventDefault();
-    const link = document.createElement('a');
-    link.href = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://reuniaoadm.tecc.cloud';
-    link.download = 'teccon-qr-code.png';
-    link.target = '_blank';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    try {
+      const response = await fetch('https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://tutorial-steel.vercel.app/');
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'teccon-qr-code.png';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error downloading QR code:', error);
+      // Fallback
+      window.open('https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://tutorial-steel.vercel.app/', '_blank');
+    }
   };
 
   return (
@@ -63,6 +98,7 @@ function App() {
         onTabChange={setActiveTab}
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
+        onInstallClick={deferredPrompt ? handleInstallClick : undefined}
       />
 
       <div className="flex-1 flex flex-col relative z-10 h-full overflow-hidden">
@@ -181,7 +217,7 @@ function App() {
                 {/* QR Code Section */}
                 <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center gap-8 max-w-2xl mx-auto mt-12 break-inside-avoid">
                     <div className="bg-white p-2 rounded-xl shadow-inner border border-slate-100">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://reuniaoadm.tecc.cloud" alt="QR Code" className="w-32 h-32 rounded-lg" />
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://tutorial-steel.vercel.app/" alt="QR Code" className="w-32 h-32 rounded-lg" />
                     </div>
                     <div className="text-center sm:text-left flex-1">
                         <div className="flex items-center justify-center sm:justify-start gap-2 mb-2">
