@@ -1,11 +1,45 @@
-<div align="center">
+# TECCON - Guia de Conexão (Versão Produção)
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+Este projeto já está configurado para hospedagem em qualquer servidor web (Apache, Nginx, IIS, cPanel, Vercel, etc).
 
-  <h1>Built with AI Studio</h2>
+## 📦 Como Gerar os Arquivos para Hospedagem
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+Para obter a pasta com os arquivos finais (HTML, CSS, JS) prontos para upload:
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+1. **Instale as dependências** (se ainda não fez):
+   ```bash
+   npm install
+   ```
 
-</div>
+2. **Gere o Build**:
+   ```bash
+   npm run build
+   ```
+
+3. **Localize os Arquivos**:
+   Após o comando acima, será criada uma pasta chamada **`dist`** na raiz do projeto.
+
+---
+
+## 🚀 Como Colocar no Servidor
+
+### Opção 1: Servidor de Arquivos (FTP / cPanel / Apache / Nginx)
+Esta é a opção para "hospedagem externa" tradicional.
+
+1. Abra a pasta **`dist`** que foi gerada.
+2. Copie **todo o conteúdo** de dentro dela (arquivo `index.html`, `manifest.json` e a pasta `assets`).
+3. Cole na pasta pública do seu servidor (geralmente chamada de `public_html`, `www` ou `htdocs`).
+4. **Pronto!** O site funcionará imediatamente.
+   *Nota: Graças à configuração `base: './'`, o site funcionará mesmo se você colocá-lo dentro de uma subpasta (ex: `seusite.com/manuais/teccon`).*
+
+### Opção 2: Vercel / Netlify (Moderno)
+Se preferir usar serviços de nuvem:
+1. Conecte este repositório ao Vercel ou Netlify.
+2. O sistema fará o build e deploy automaticamente.
+
+---
+
+## 📱 Funcionalidades
+- **PWA**: O site pode ser instalado no celular/desktop.
+- **Responsivo**: Funciona em TV, Mobile e Desktop.
+- **Impressão**: Botão "Salvar PDF" gera um documento limpo em A4.
