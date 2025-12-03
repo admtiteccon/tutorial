@@ -41,6 +41,7 @@ export const MeetingsChart: React.FC = () => {
             cursor={{ fill: '#f1f5f9' }}
             contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
           />
+          {/* CORREÇÃO: Usamos '_' no lugar de 'entry' para indicar que a variável não é usada */}
           <Bar dataKey="meetings" radius={[4, 4, 0, 0]}>
             {data.map((_, index) => (
               <Cell key={`cell-${index}`} fill={index === 4 ? '#4f46e5' : '#818cf8'} />
