@@ -1,0 +1,21 @@
+{
+  "name": "TECCON - Guia de Conexão",
+  "short_name": "TECCON Guia",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#e0e7ff",
+  "theme_color": "#4f46e5",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://api.qrserver.com/v1/create-qr-code/?size=192x192&data=https://tutorial-steel.vercel.app/",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://api.qrserver.com/v1/create-qr-code/?size=512x512&data=https://tutorial-steel.vercel.app/",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
